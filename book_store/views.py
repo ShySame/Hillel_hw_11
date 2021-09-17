@@ -1,5 +1,3 @@
-from django.http import Http404
-from django.shortcuts import render, get_object_or_404
 from django.views import generic
 
 from .models import Author, Book, Publisher, Store
@@ -25,7 +23,6 @@ class BookDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         contex = super().get_context_data()
         contex['books'] = BookDetailView.books
-        print(BookDetailView.books)
         return contex
 
 
