@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import silk.storage
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -136,4 +136,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SILKY_PYTHON_PROFILER = True
 #
 # SILKY_META = True
-
