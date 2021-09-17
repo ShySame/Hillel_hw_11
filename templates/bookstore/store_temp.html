@@ -1,0 +1,21 @@
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 class="h">Stores List</h1>
+
+  {% if store_list %}
+    <ul>
+
+      {% for st in store_list %}
+        <li>
+          <a href="{% url 'bookstore:store_detail' pk=st.pk %}">{{ st.name }}</a>
+        </li>
+      {% endfor %}
+
+    </ul>
+
+  {% else %}
+    <p>There are no stores</p>
+  {% endif %}
+{% endblock %}

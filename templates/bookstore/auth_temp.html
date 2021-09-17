@@ -1,0 +1,21 @@
+
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 class="h">Authors List</h1>
+
+  {% if author_list %}
+    <ul>
+
+      {% for auth in author_list%}
+        <li>
+          <a href="{% url 'bookstore:author_detail' pk=auth.pk %}">{{ auth.name }}</a>
+        </li>
+      {% endfor %}
+
+    </ul>
+
+  {% else %}
+    <p>There are no authors</p>
+  {% endif %}
+{% endblock %}

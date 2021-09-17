@@ -24,18 +24,18 @@ class BookAdmin(admin.ModelAdmin):
     date_hierarchy = 'pubdate'
     fieldsets = (
         ('Book info',
-         {'fields': (('name',), 'pages', 'price')}
+         {
+             'fields': ('name', 'pages', 'price')}
          ),
-        (None,
+        ('★★★★★',
          {'fields': ('rating',)}
          ),
-        (None,
+        ('Publisher',
          {'fields': ('publisher',)}
          ),
         ('Date',
          {'fields': ('pubdate',)}
-         ),
-    )
+         ))
     inlines = [
         BookAuthorInline,
     ]

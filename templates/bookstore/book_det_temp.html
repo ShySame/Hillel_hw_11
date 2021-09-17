@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1 class="h">{{ book.name }}</h1>
+    <p class="td">{{ book.pages }} pages<br>
+        Price - {{ book.price }} $<br>
+        Rating - {{ book.rating }} ★ <br>
+        Date of publication - {{ book.pubdate }}<br>
+        Publisher - {{ book.publisher }}<br>
+        Authors -
+        {% for i in books %}
+            {% if i.id == book.id %}
+
+                {% for it in i.authors %}
+                    <div class="minp">{{ it }} </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+
+{% endblock %}

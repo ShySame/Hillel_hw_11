@@ -25,7 +25,7 @@ class Command(BaseCommand):
                 book_li.append(Book(name=(fake.text(max_nb_chars=25))[:-1],
                                     pages=fake.pyint(min_value=20, max_value=666, step=1),
                                     price=fake.pydecimal(right_digits=2, positive=True, min_value=20, max_value=1666),
-                                    rating=fake.pyfloat(right_digits=2, positive=True, min_value=1, max_value=5),
+                                    rating=fake.pyfloat(right_digits=1, positive=True, min_value=1, max_value=5),
                                     pubdate=fake.date_between(),
                                     publisher_id=random.randint(1, number)
                                     ))
