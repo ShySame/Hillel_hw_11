@@ -6,7 +6,12 @@
         Price - {{ book.price }} $<br>
         Rating - {{ book.rating }} ★ <br>
         Date of publication - {{ book.pubdate }}<br>
-        Publisher - {{ q2.name }}<br>
+        Publisher -
+        {% if q2 %}
+            {{ q2.name }}<br>
+        {% else %}
+            Unknown publisher
+        {% endif %}
         Authors -
         {% if books %}
             {% for i in books %}
@@ -15,16 +20,16 @@
         {% else %}
             Unknown author
         {% endif %}
-{#---------------------------------------------------------------#}
-{#    Ты тут для prefetch_related    #}
+    {#---------------------------------------------------------------#}
+    {#    Ты тут для prefetch_related    #}
 
-{#     {% for i in books %}#}
-{#            {% if i.id == book.id %}#}
-{##}
-{#                {% for it in i.authors %}#}
-{#                    <div class="minp">{{ it }} </div>#}
-{#                {% endfor %}#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
+    {#     {% for i in books %}#}
+    {#            {% if i.id == book.id %}#}
+    {##}
+    {#                {% for it in i.authors %}#}
+    {#                    <div class="minp">{{ it }} </div>#}
+    {#                {% endfor %}#}
+    {#            {% endif %}#}
+    {#        {% endfor %}#}
 
 {% endblock %}

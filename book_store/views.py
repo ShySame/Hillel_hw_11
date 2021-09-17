@@ -36,7 +36,7 @@ class BookDetailView(generic.DetailView):
         #     books.append({'id': book.pk, 'name': book.name, 'authors': authors})
 
         queryset = Book.objects.get(id=self.object.id).authors.all()
-        q2 = Book.objects.select_related('publisher').get(id=self.object.id)
+        q2 = Book.objects.select_related('publisher').get(id=self.object.id).publisher
         qaut = Book.objects.all().aggregate(Avg('price'))
         for a in queryset:
             books.append({'id': a.pk, 'authors': a.name})
