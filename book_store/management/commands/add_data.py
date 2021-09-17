@@ -51,6 +51,6 @@ class Command(BaseCommand):
 
             sys.stdout.write("!SUCCESS!")
 
-        except (Author.DoesNotExist or Book.DoesNotExist or Publisher.DoesNotExist
-                or Store.DoesNotExist or BookAuthor.DoesNotExist or StoreBook.DoesNotExist):
+        except (Author.DoesNotExist or Book.DoesNotExist or Publisher.DoesNotExist or
+                Store.DoesNotExist or BookAuthor.DoesNotExist or StoreBook.DoesNotExist):
             raise CommandError('Smth wrong :(')
