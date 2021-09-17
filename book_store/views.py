@@ -13,16 +13,15 @@ class BookDetailView(generic.DetailView):
     model = Book
     template_name = 'bookstore/book_det_temp.html'
     b = Author.objects.all()
-    queryset = Book.objects.prefetch_related('authors')
-
-    books = []
-    for book in queryset:
-        authors = [a.name for a in book.authors.all()]
-        books.append({'id': book.pk, 'name': book.name, 'authors': authors})
 
     def get_context_data(self, **kwargs):
+        books = []
+        queryset = Book.objects.prefetch_related('authors')
+        for book in queryset:
+            authors = [a.name for a in book.authors.all()]
+            books.append({'id': book.pk, 'name': book.name, 'authors': authors})
         contex = super().get_context_data()
-        contex['books'] = BookDetailView.books
+        contex['books'] = books
         return contex
 
 

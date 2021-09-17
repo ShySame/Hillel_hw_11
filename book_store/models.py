@@ -33,9 +33,6 @@ class BookAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
-    def __str__(self):
-        pass
-
 
 class Store(models.Model):
     name = models.CharField(max_length=300)
@@ -48,6 +45,3 @@ class Store(models.Model):
 class StoreBook(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
-    def __str__(self):
-        pass
