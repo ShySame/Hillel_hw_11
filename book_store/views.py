@@ -1,3 +1,5 @@
+import datetime
+
 from django.db.models import Avg, Count
 from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import redirect, render
@@ -118,7 +120,9 @@ def napomny(request):
             text = form.cleaned_data['text']
             date = form.cleaned_data['date']
             try:
-                need_send_mail.delay(email, date, text)
+                date = datetime.datetime.now() + datetime.timedelta(seconds=10)
+                need_send_mail.apply_async((email, text), eta=date)
+
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('bookstore:books')
