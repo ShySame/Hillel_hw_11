@@ -10,10 +10,11 @@ class BooksView(generic.ListView):
     template_name = 'bookstore/book_temp.html'
 
     def get_context_data(self, *args, **kwargs):
+        q1 = Book.objects.annotate(num=Count('authors'))
         queryset = Book.objects.all().aggregate(Avg('price'))
-
         contex = super().get_context_data()
         contex['q'] = queryset
+        contex['q1'] = q1
         return contex
 
 
@@ -73,9 +74,10 @@ class PublisherView(generic.ListView):
 
     def get_context_data(self, *args, **kwargs):
         queryset = Author.objects.all().aggregate(Count('id'))
-
+        pubs = Publisher.objects.annotate(num=Count('book'))
         contex = super().get_context_data()
         contex['q'] = queryset
+        contex['p']=pubs
         return contex
 
 

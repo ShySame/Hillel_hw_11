@@ -1,21 +1,25 @@
-
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1 class="h">Publishers List</h1>
+    <h1 class="h">Publishers List</h1>
     Number of publishers - {{ q }}
-  {% if publ_list %}
-    <ul>
+    {% if publ_list %}
+        <ul>
+            {% for i in p %}
+                {% for pub in publ_list %}
+                    {% if i.name == pub.name %}
+                        <li>
+                            <a href="{% url 'bookstore:publisher_detail' pk=pub.pk %}">{{ pub.name }}</a>
+                            - {{ i.num }} books
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
 
-      {% for pub in publ_list %}
-        <li>
-          <a href="{% url 'bookstore:publisher_detail' pk=pub.pk %}">{{ pub.name }}</a>
-        </li>
-      {% endfor %}
+        </ul>
 
-    </ul>
+    {% else %}
+        <p>There are no publishers</p>
 
-  {% else %}
-    <p>There are no publishers</p>
-  {% endif %}
+    {% endif %}
 {% endblock %}
