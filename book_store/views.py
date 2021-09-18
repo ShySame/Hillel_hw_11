@@ -1,4 +1,3 @@
-from .tasks import send_mail
 from django.db.models import Avg, Count
 from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import render, redirect
@@ -6,6 +5,7 @@ from django.views import generic
 
 from .forms import Napomny
 from .models import Author, Book, Publisher, Store
+from .tasks import send_mail
 
 
 class BooksView(generic.ListView):
