@@ -120,7 +120,6 @@ def napomny(request):
             text = form.cleaned_data['text']
             date = form.cleaned_data['date']
             try:
-                date = datetime.datetime.now() + datetime.timedelta(seconds=10)
                 need_send_mail.apply_async((email, text), eta=date)
 
             except BadHeaderError:
