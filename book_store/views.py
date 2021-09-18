@@ -1,6 +1,10 @@
+from .tasks import send_mail
 from django.db.models import Avg, Count
+from django.http import BadHeaderError, HttpResponse
+from django.shortcuts import render, redirect
 from django.views import generic
 
+from .forms import Napomny
 from .models import Author, Book, Publisher, Store
 
 
@@ -77,7 +81,7 @@ class PublisherView(generic.ListView):
         pubs = Publisher.objects.annotate(num=Count('book'))
         contex = super().get_context_data()
         contex['q'] = queryset
-        contex['p']=pubs
+        contex['p'] = pubs
         return contex
 
 
@@ -104,3 +108,23 @@ class StoreDetailView(generic.DetailView):
     model = Store
     context_object_name = 'store_det'
     template_name = 'bookstore/store_det_temp.html'
+
+
+def napomny(request):
+    if request.method == 'POST':
+        form = Napomny(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            text = form.cleaned_data['text']
+            date = form.cleaned_data['date']
+            try:
+                send_mail.delay(email, date, text)
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect('bookstore:books')
+    else:
+        form = Napomny()
+
+    return render(request,
+                  'bookstore/napomny.html',
+                  {'form': form})

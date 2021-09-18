@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'book_store.apps.BookStoreConfig',
 
     'django_extensions',
+
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,3 +139,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SILKY_PYTHON_PROFILER = True
 #
 # SILKY_META = True
+
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TIMEZONE = TIME_ZONE
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_BROKER_URL = 'amqp://locahost'
