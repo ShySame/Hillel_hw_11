@@ -1,5 +1,3 @@
-import datetime
-
 from django.db.models import Avg, Count
 from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import redirect, render
@@ -12,8 +10,6 @@ from .tasks import need_send_mail
 
 class BooksView(generic.ListView):
     model = Book
-    context_object_name = 'book_list'
-    template_name = 'bookstore/book_temp.html'
 
     def get_context_data(self, *args, **kwargs):
         q1 = Book.objects.annotate(num=Count('authors'))
@@ -26,9 +22,6 @@ class BooksView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
-    context_object_name = 'book'
-    template_name = 'bookstore/book_det_temp.html'
-    b = Author.objects.all()
 
     def get_context_data(self, *args, **kwargs):
         books = []
@@ -56,8 +49,6 @@ class BookDetailView(generic.DetailView):
 
 class AuthorsView(generic.ListView):
     model = Author
-    context_object_name = 'author_list'
-    template_name = 'bookstore/auth_temp.html'
 
     def get_context_data(self, *args, **kwargs):
         queryset = Author.objects.all().aggregate(Avg('age'))
@@ -69,14 +60,10 @@ class AuthorsView(generic.ListView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
-    context_object_name = 'author_det'
-    template_name = 'bookstore/auth_det_temp.html'
 
 
 class PublisherView(generic.ListView):
     model = Publisher
-    context_object_name = 'publ_list'
-    template_name = 'bookstore/publ_temp.html'
 
     def get_context_data(self, *args, **kwargs):
         queryset = Author.objects.all().aggregate(Count('id'))
@@ -89,27 +76,31 @@ class PublisherView(generic.ListView):
 
 class PublisherDetailView(generic.DetailView):
     model = Publisher
-    context_object_name = 'publ_det'
-    template_name = 'bookstore/publ_det_temp.html'
 
 
 class StoreView(generic.ListView):
     model = Store
-    context_object_name = 'store_list'
-    template_name = 'bookstore/store_temp.html'
 
     def get_context_data(self, *args, **kwargs):
         queryset = Store.objects.all().aggregate(Count('id'))
-
+        q = Store.objects.all().annotate(num=Count('books'))
         contex = super().get_context_data()
         contex['q'] = queryset
+        contex['q1'] = q
         return contex
 
 
 class StoreDetailView(generic.DetailView):
     model = Store
-    context_object_name = 'store_det'
-    template_name = 'bookstore/store_det_temp.html'
+
+    def get_context_data(self, *args, **kwargs):
+        q = Store.objects.get(id=self.object.id).books.all()
+        store = []
+        for i in q:
+            store.append({'id': i.pk, 'books': i.name})
+        contex = super().get_context_data()
+        contex['store'] = store
+        return contex
 
 
 def napomny(request):
@@ -129,5 +120,5 @@ def napomny(request):
         form = Napomny()
 
     return render(request,
-                  'bookstore/napomny.html',
+                  'book_store/napomny.html',
                   {'form': form})

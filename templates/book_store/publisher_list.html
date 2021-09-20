@@ -3,10 +3,10 @@
 {% block content %}
     <h1 class="h">Publishers List</h1>
     Number of publishers - {{ q }}
-    {% if publ_list %}
+    {% if publisher_list %}
         <ul>
             {% for i in p %}
-                {% for pub in publ_list %}
+                {% for pub in publisher_list %}
                     {% if i.name == pub.name %}
                         <li>
                             <a href="{% url 'bookstore:publisher_detail' pk=pub.pk %}">{{ pub.name }}</a>

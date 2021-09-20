@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1 class="h">{{ object.name }}</h1>
+ <p class="td">Books -
+        {% if store %}
+            {% for i in store %}
+                <div class="minp">{{ i.books }}</div>
+            {% endfor %}
+        {% else %}
+            There are no books in this store!
+        {% endif %}
+{% endblock %}

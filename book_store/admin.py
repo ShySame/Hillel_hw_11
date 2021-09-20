@@ -22,6 +22,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('name', 'pages', 'price',)
     list_filter = ('authors', 'publisher',)
     date_hierarchy = 'pubdate'
+
     fieldsets = (
         ('Book info',
          {

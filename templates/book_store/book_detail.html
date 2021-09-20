@@ -1,11 +1,11 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <h1 class="h">{{ book.name }}</h1>
-    <p class="td">{{ book.pages }} pages<br>
-        Price - {{ book.price }} $<br>
-        Rating - {{ book.rating }} ★ <br>
-        Date of publication - {{ book.pubdate }}<br>
+    <h1 class="h">{{ object.name }}</h1>
+    <p class="td">{{ object.pages }} pages<br>
+        Price - {{ object.price }} $<br>
+        Rating - {{ object.rating }} ★ <br>
+        Date of publication - {{ object.pubdate }}<br>
         Publisher -
         {% if q2 %}
             {{ q2.name }}<br>
