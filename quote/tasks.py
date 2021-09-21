@@ -40,14 +40,12 @@ def quote_task():
                 print(quote_text)
                 quote_author = all_quote.find('small').get_text()
                 print(quote_author)
+                quote_author_about = all_quote.find('a').get('href')
+                # print(quote_author_about)
 
-                obj, created = Author.objects.get_or_create(name=quote_author)
-                if not created:
-                    a_id = Author.objects.get(name=obj).id
-                else:
-                    a_id = Author.objects.values_list('id', flat=True).last()
+                obj, created = Author.objects.get_or_create(name=quote_author, about=quote_author_about)
 
-                Quote.objects.get_or_create(quote=quote_text, author_id=int(a_id))
+                Quote.objects.get_or_create(quote=quote_text, author=obj)
                 nomer += 1
                 print(f'page {page}-{nomer}')
             except:

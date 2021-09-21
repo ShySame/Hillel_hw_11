@@ -15,5 +15,5 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'scraping-task': {
         'task': 'quote.tasks.quote_task',
-        'schedule': timedelta(seconds=10),}
+        'schedule': crontab(hour='*/2'),}
 }
