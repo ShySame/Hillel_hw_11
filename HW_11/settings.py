@@ -143,7 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SILKY_PYTHON_PROFILER = True
 #
 # SILKY_META = True
-# from datetime import timedelta
+
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_RESULT_BACKEND = 'django-db'
@@ -152,8 +152,4 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_BROKER_URL = 'amqp://admin:admin@0.0.0.0:5672/'
-# CELERY_BEAT_SCHEDULE = {    'scraping-task': {
-#         'task': 'quote.app.tasks.quote_task',
-#         'schedule': timedelta(seconds=10),}
-# }
-# CELERY_IMPORTS = 'quote.tasks'
+
