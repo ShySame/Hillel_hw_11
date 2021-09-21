@@ -12,11 +12,8 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
 
-
 app.conf.beat_schedule = {
-    'scraping-task-one-min': {
-        'task': 'quote.app.tasks.quote_task',
-        'schedule': timedelta(seconds=10),
-        'args':(),
-    }
+    'scraping-task': {
+        'task': 'quote.tasks.quote_task',
+        'schedule': timedelta(seconds=10),}
 }

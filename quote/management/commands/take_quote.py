@@ -11,13 +11,8 @@ SITE = 'https://quotes.toscrape.com'
 
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
-        parser.add_argument('page', type=int)
-        parser.add_argument('nom', type=int)
 
     def handle(self, *args, **kwargs):
-        page = kwargs['page']
-        i=kwargs['nom']
         page, i = 1, 0
         try:
 
@@ -43,13 +38,13 @@ class Command(BaseCommand):
                     quote_author = all_quote.find('small').get_text()
                     print(quote_author)
 
-                    # obj,created = Author.objects.get_or_create(name=quote_author)
-                    # if not created:
-                    #     a_id=Author.objects.get(name=obj).id
-                    # else:
-                    #     a_id = Author.objects.values_list('id', flat=True).last()
-                    #
-                    # Quote.objects.get_or_create(quote=quote_text, author_id=int(a_id))
+                    obj,created = Author.objects.get_or_create(name=quote_author)
+                    if not created:
+                        a_id=Author.objects.get(name=obj).id
+                    else:
+                        a_id = Author.objects.values_list('id', flat=True).last()
+
+                    Quote.objects.get_or_create(quote=quote_text, author_id=int(a_id))
                     i += 1
                     print(f'page {page}-{i}')
                 except:

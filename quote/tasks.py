@@ -4,7 +4,6 @@ import sys
 from bs4 import BeautifulSoup as b_s
 
 import requests
-from django.core.management import call_command as quote
 
 from quote.models import Author, Quote
 
@@ -18,13 +17,12 @@ nomer = 0
 def quote_task():
     global page
     global nomer
-    print(page, '-', nomer)
 
     try:
         r = requests.get(SITE)
         if r.status_code != requests.codes.ok:
             return
-        print(f"{SITE} status is {r.status_code}")
+        sys.stdout.write(f"{SITE} status is {r.status_code}")
 
         for _ in range(5):
             URL = f'{SITE}/page/{page}'
@@ -58,3 +56,4 @@ def quote_task():
 
     except:
         raise Exception('Smth wrong :(')
+
