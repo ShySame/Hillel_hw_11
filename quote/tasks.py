@@ -12,7 +12,7 @@ SITE = 'https://quotes.toscrape.com'
 
 @shared_task
 def quote_task():
-    page = 10
+    page = 1
     nomer = 0
 
     try:
@@ -44,7 +44,7 @@ def quote_task():
             obj1, created1 = Quote.objects.get_or_create(quote=quote_text, author=obj)
             if created1:
                 kol_vo += 1
-                print(f'page {page}-{nomer+1}')
+                # print(f'page {page}-{nomer+1}')
             nomer += 1
 
             if nomer == 10:
