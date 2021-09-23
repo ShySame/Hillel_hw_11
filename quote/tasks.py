@@ -4,6 +4,7 @@ import sys
 from bs4 import BeautifulSoup as b_s
 
 import requests
+from django.core.mail import send_mail
 
 from quote.models import Author, Quote
 
@@ -12,7 +13,7 @@ SITE = 'https://quotes.toscrape.com'
 
 @shared_task
 def quote_task():
-    page = 1
+    page = 10
     nomer = 0
 
     try:
@@ -28,6 +29,7 @@ def quote_task():
             check = soup('div', {'class': 'row'})[1]
             if 'No quotes found!' in check.find('div', {'class': 'col-md-8'}).get_text():
                 sys.stdout.write('It`s all')
+                send_mail('Quotes', 'No quotes found!', 'admin@mail.com', ['olya@gmail.com'])
                 return
             all_quote = soup('div', {'class': 'quote'})[nomer]
             # print(nomer+1)
@@ -44,7 +46,7 @@ def quote_task():
             obj1, created1 = Quote.objects.get_or_create(quote=quote_text, author=obj)
             if created1:
                 kol_vo += 1
-                # print(f'page {page}-{nomer+1}')
+                print(f'page {page}-{nomer+1}')
             nomer += 1
 
             if nomer == 10:
