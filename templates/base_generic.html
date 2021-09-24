@@ -19,11 +19,12 @@
                     {% if user.is_authenticated %}
                         Hi {{ user.username }}!
                         <p>
-                        <a href="{% url 'logout' %}">Log Out</a></p>
+                            <a href="{% url 'logout' %}">Log Out</a></p>
                     {% else %}
                         <p>You are not logged in</p>
-                         <p>
-                        <a href="{% url 'login' %}">Log In</a></p>{% endif %}
+                        <p>
+                            <a href="{% url 'login' %}">Log In</a></p>{% endif %}
+                    <hr align=left width="100" color=green/>
                     <li><a href="{% url 'bookstore:books' %}">Books</a></li>
                     <li><a href="{% url 'bookstore:authors' %}">Authors</a></li>
                     <li><a href="{% url 'bookstore:publisher' %}">Publishers</a></li>
@@ -32,7 +33,30 @@
                 </ul>
             {% endblock %}
         </div>
-        <div class="col-sm-10  vl mar">{% block content %}{% endblock %}</div>
+        <div class="col-sm-10  vl mar">{% block content %}{% endblock %}
+            {% block pagination %}
+                {% if page_obj.has_other_pages %}
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li><a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
+                        {% else %}
+                            <li class="disabled btn btn-outline-info mb-4"><span>Prev</span></li>
+                        {% endif %}
+                        {% for i in page_obj.paginator.page_range %}
+                            {% if users.number == i %}
+                                <li class="active "><span>{{ i }} <span class="sr-only ">(current)</span></span></li>
+                            {% else %}
+                                <li><a class="btn btn-outline-info mb-4"  href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li><a class="btn btn-outline-info mb-4"  href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                        {% else %}
+                            <li class="disabled btn btn-outline-info mb-4"><span>Next</span></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            {% endblock %}</div>
     </div>
 </div>
 </body>

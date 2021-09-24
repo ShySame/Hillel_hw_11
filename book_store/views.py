@@ -13,6 +13,7 @@ from .tasks import need_send_mail
 
 class BooksView(generic.ListView):
     model = Book
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         q1 = Book.objects.annotate(num=Count('authors'))
@@ -52,6 +53,7 @@ class BookDetailView(generic.DetailView):
 
 class AuthorsView(generic.ListView):
     model = Author
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         queryset = Author.objects.all().aggregate(Avg('age'))
@@ -67,6 +69,7 @@ class AuthorDetailView(generic.DetailView):
 
 class PublisherView(generic.ListView):
     model = Publisher
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         queryset = Author.objects.all().aggregate(Count('id'))
@@ -83,6 +86,7 @@ class PublisherDetailView(generic.DetailView):
 
 class StoreView(generic.ListView):
     model = Store
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         queryset = Store.objects.all().aggregate(Count('id'))
