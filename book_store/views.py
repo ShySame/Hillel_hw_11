@@ -1,7 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Avg, Count
 from django.http import BadHeaderError, HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import Napomny
 from .models import Author, Book, Publisher, Store
@@ -122,3 +125,29 @@ def napomny(request):
     return render(request,
                   'book_store/napomny.html',
                   {'form': form})
+
+
+class AuthorCreateView(LoginRequiredMixin, CreateView):
+    model = Author
+    fields = ['name', 'age', ]
+    login_url = '/accounts/login/'
+
+    def get_success_url(self):
+        return reverse('bookstore:author_detail', args=[self.object.id, ])
+
+
+class AuthorUpdateView(LoginRequiredMixin, UpdateView):
+    model = Author
+    fields = ['name', 'age', ]
+    login_url = '/accounts/login/'
+
+    def get_success_url(self):
+        return reverse('bookstore:author_detail', args=[self.object.id, ])
+
+
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
+    model = Author
+    login_url = '/accounts/login/'
+
+    def get_success_url(self):
+        return reverse('bookstore:authors', args=None)

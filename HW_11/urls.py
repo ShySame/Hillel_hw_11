@@ -20,6 +20,7 @@ from django.urls import include, path
 urlpatterns = [
     path('bookstore/', include('book_store.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

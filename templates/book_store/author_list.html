@@ -3,6 +3,8 @@
 
 {% block content %}
   <h1 class="h">Authors List</h1>
+
+    <p><a href="{% url 'bookstore:author_create' %}">CREATE NEW</a></p>
     Average age - {{ q }}
   {% if author_list %}
     <ul>
