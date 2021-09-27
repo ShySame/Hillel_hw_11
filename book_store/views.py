@@ -69,7 +69,7 @@ class AuthorDetailView(generic.DetailView):
 
 class PublisherView(CacheMixin, generic.ListView):
     model = Publisher
-    queryset = Publisher.objects.annotate(num=Count('book'))
+    queryset = Publisher.objects.annotate(num=Count('book')).order_by('pk')
     paginate_by = 500
 
     def get_context_data(self, *args, **kwargs):
@@ -86,7 +86,7 @@ class PublisherDetailView(generic.DetailView):
 
 class StoreView(CacheMixin, generic.ListView):
     model = Store
-    queryset = Store.objects.all().annotate(num=Count('books'))
+    queryset = Store.objects.all().annotate(num=Count('books')).order_by('pk')
     paginate_by = 500
 
     def get_context_data(self, *args, **kwargs):
