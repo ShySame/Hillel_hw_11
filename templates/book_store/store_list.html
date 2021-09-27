@@ -2,18 +2,16 @@
 
 {% block content %}
     <h1 class="h">Stores List</h1>
-    Number of stores - {{ q }}
+    Number of stores - {{ q.id__count }}
     {% if store_list %}
         <ul>
 
             {% for st in store_list %}
-                {% for i in q1 %}
-                    {% if i.name == st.name %}
-                        <li>
-                            <a href="{% url 'bookstore:store_detail' pk=st.pk %}">{{ st.name }}</a> - {{ i.num }} books
-                        </li>
-                    {% endif %}
-                {% endfor %}
+
+                <li>
+                    <a href="{% url 'bookstore:store_detail' pk=st.pk %}">{{ st.name }}</a> - {{st.num }} books
+                </li>
+
             {% endfor %}
 
         </ul>

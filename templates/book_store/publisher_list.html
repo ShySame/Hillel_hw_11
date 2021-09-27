@@ -2,19 +2,16 @@
 
 {% block content %}
     <h1 class="h">Publishers List</h1>
-    Number of publishers - {{ q }}
+    Number of publishers - {{ q.id__count }}
     {% if publisher_list %}
         <ul>
-            {% for i in p %}
-                {% for pub in publisher_list %}
-                    {% if i.name == pub.name %}
-                        <li>
-                            <a href="{% url 'bookstore:publisher_detail' pk=pub.pk %}">{{ pub.name }}</a>
-                            - {{ i.num }} books
-                        </li>
-                    {% endif %}
-                {% endfor %}
+            {% for pub in publisher_list %}
+                    <li>
+                        <a href="{% url 'bookstore:publisher_detail' pk=pub.pk %}">{{ pub.name }}</a>
+                        - {{ pub.num }} books
+                    </li>
             {% endfor %}
+
 
         </ul>
 

@@ -7,20 +7,20 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .forms import Napomny
+from .mixins.cache_mixin import CacheMixin
 from .models import Author, Book, Publisher, Store
 from .tasks import need_send_mail
 
 
-class BooksView(generic.ListView):
+class BooksView(CacheMixin, generic.ListView):
     model = Book
-    paginate_by = 10
+    queryset = Book.objects.annotate(num=Count('authors')).order_by("pk")
+    paginate_by = 500
 
     def get_context_data(self, *args, **kwargs):
-        q1 = Book.objects.annotate(num=Count('authors'))
-        queryset = Book.objects.all().aggregate(Avg('price'))
-        contex = super().get_context_data()
-        contex['q'] = queryset
-        contex['q1'] = q1
+        price = Book.objects.all().aggregate(Avg('price'))
+        contex = super().get_context_data(*args, **kwargs)
+        contex['q'] = price
         return contex
 
 
@@ -33,7 +33,7 @@ class BookDetailView(generic.DetailView):
         # --------------------------------------------------------------------------
         # Вроде как prefetch_related для оптимизации, но разницы по скорости выполнения не было,
         # так что лежи тут на память
-
+        #
         # queryset = Book.objects.prefetch_related('authors')
         # for book in queryset:
         #     authors = [a.name for a in book.authors.all()]
@@ -51,15 +51,15 @@ class BookDetailView(generic.DetailView):
         return contex
 
 
-class AuthorsView(generic.ListView):
+class AuthorsView(CacheMixin, generic.ListView):
     model = Author
-    paginate_by = 10
+    queryset = Author.objects.annotate(num=Count('book')).order_by('pk')
+    paginate_by = 500
 
     def get_context_data(self, *args, **kwargs):
-        queryset = Author.objects.all().aggregate(Avg('age'))
-
+        q = Author.objects.all().aggregate(Avg('age'))
         contex = super().get_context_data()
-        contex['q'] = queryset
+        contex['q'] = q
         return contex
 
 
@@ -67,16 +67,16 @@ class AuthorDetailView(generic.DetailView):
     model = Author
 
 
-class PublisherView(generic.ListView):
+class PublisherView(CacheMixin, generic.ListView):
     model = Publisher
-    paginate_by = 10
+    queryset = Publisher.objects.annotate(num=Count('book'))
+    paginate_by = 500
 
     def get_context_data(self, *args, **kwargs):
-        queryset = Author.objects.all().aggregate(Count('id'))
-        pubs = Publisher.objects.annotate(num=Count('book'))
+        q = Author.objects.all().aggregate(Count('id'))
+
         contex = super().get_context_data()
-        contex['q'] = queryset
-        contex['p'] = pubs
+        contex['q'] = q
         return contex
 
 
@@ -84,16 +84,15 @@ class PublisherDetailView(generic.DetailView):
     model = Publisher
 
 
-class StoreView(generic.ListView):
+class StoreView(CacheMixin, generic.ListView):
     model = Store
-    paginate_by = 10
+    queryset = Store.objects.all().annotate(num=Count('books'))
+    paginate_by = 500
 
     def get_context_data(self, *args, **kwargs):
-        queryset = Store.objects.all().aggregate(Count('id'))
-        q = Store.objects.all().annotate(num=Count('books'))
+        q = Store.objects.all().aggregate(Count('id'))
         contex = super().get_context_data()
-        contex['q'] = queryset
-        contex['q1'] = q
+        contex['q'] = q
         return contex
 
 

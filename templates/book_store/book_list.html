@@ -2,22 +2,18 @@
 
 {% block content %}
     <h1 class="h">Book List</h1>
-    Average price - {{ q }}
+    Average price - {{ q.price__avg | floatformat:2 }} $
 
     {% if book_list %}
         <ul>
 
-            {% for i in q1 %}
                 {% for book in book_list %}
-                    {% if i.name == book.name %}
                         <li>
                             <a href="{% url 'bookstore:book_detail' pk=book.pk %}">{{ book.name }}</a>
                             ({{ book.price }} $)
-                            - {{ i.num }} authors
+                            - {{ book.num }} authors
                         </li>
-                    {% endif %}
                 {% endfor %}
-            {% endfor %}
 
         </ul>
 

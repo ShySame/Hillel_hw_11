@@ -5,13 +5,14 @@
   <h1 class="h">Authors List</h1>
 
     <p><a href="{% url 'bookstore:author_create' %}">CREATE NEW</a></p>
-    Average age - {{ q }}
+    Average age - {{ q.age__avg | floatformat:"0"}}
   {% if author_list %}
     <ul>
 
       {% for auth in author_list%}
         <li>
           <a href="{% url 'bookstore:author_detail' pk=auth.pk %}">{{ auth.name }}</a>
+            - {{ auth.num }} books
         </li>
       {% endfor %}
 

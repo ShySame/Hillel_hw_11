@@ -82,8 +82,10 @@ TEMPLATES = [
 if DEBUG:
     INSTALLED_APPS += ['debug_toolbar',
                        'silk', ]
-    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware',
-                   'silk.middleware.SilkyMiddleware', ]
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+                   # 'silk.middleware.SilkyMiddleware',
+                   ]
     INTERNAL_IPS = [
         '127.0.0.1', ]
 
@@ -96,6 +98,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
     }
 }
 
